@@ -6,8 +6,40 @@ The project is structured as a Bun Workspace containing two separate application
 
 ## 📁 Repository Structure
 
-- `frontend/` - The visual Astro website using Tailwind CSS for premium responsive design.
-- `cms/` - The headless Payload CMS backend running on Next.js, powered by a local SQLite database that stores your projects and profile details.
+- `frontend/` - The visual Astro website using Tailwind CSS for a premium, brighter responsive design.
+- `cms/` - The headless Payload CMS backend running on Next.js, powered by a local SQLite database.
+
+---
+
+## 🎨 Bright Theme & Dynamic Content
+
+The portfolio has been recently updated with a **Bright/Light-mode aesthetic**.
+- **Clean UI**: Uses a soft off-white background with vibrant pastel gradients and crisp dark typography.
+- **Payload Globals**: The text for the Home, About, and Projects pages is now managed entirely through Payload CMS Globals. No more hardcoded strings!
+- **Profile Picture**: Supported via the `HomePage` global in the CMS.
+
+## 🚀 Hero Component Variations
+
+We've implemented three different Hero section designs that you can swap between easily:
+
+1.  **Default Hero**: Centered layout with a large avatar above the text.
+2.  **Split Hero**: Modern side-by-side layout with text on the left and a floating image card on the right.
+3.  **Minimal Hero**: Clean, text-focused layout with a small circular profile icon.
+
+### How to Change the Hero Design
+1.  Open `frontend/src/pages/index.astro`.
+2.  Locate the import section at the top.
+3.  Comment out the current `Hero` import and uncomment the variation you want to try:
+    ```typescript
+    // Default
+    import Hero from '../components/Hero.astro';
+    
+    // Split Variation
+    // import Hero from '../components/HeroSplit.astro';
+    
+    // Minimal Variation
+    // import Hero from '../components/HeroMinimal.astro';
+    ```
 
 ---
 
@@ -16,43 +48,30 @@ The project is structured as a Bun Workspace containing two separate application
 To run the full stack locally, you need to start **both** applications in development mode simultaneously.
 
 ### Step 1: Install Dependencies
-If you have just cloned the repository, ensure all dependencies across both the CMS and the frontend are installed exactly as configured by the lockfile:
 ```bash
 # In the root directory of the repository
 bun install
 ```
 
 ### Step 2: Start the Payload CMS Backend
-
-The CMS is the ultimate source of truth for your data. You must start it so the frontend has data to fetch.
-Open a terminal and run:
-
 ```bash
 cd cms
 bun run dev
 ```
-
-The CMS should start on **`http://localhost:3000`**. 
-
-> **Important Setup Step**: The very first time you start the CMS, head to `http://localhost:3000/admin`. You will be prompted to create an Admin account. Once in, make sure to add content to your `Profile` fields and add your first `Projects` so the frontend has something to display!
+The CMS starts on **`http://localhost:3000`**.  
+Visit `http://localhost:3000/admin` to manage your **Globals** (Home, About, Projects) and **Collections** (Projects, Media).
 
 ### Step 3: Start the Astro Frontend
-
-Now, open a **brand new Terminal window**, navigate into the frontend, and run the Astro server:
-
 ```bash
 cd frontend
 bun run dev
 ```
-
-The website should start on **`http://localhost:4321`**.
-
-You can now view your live portfolio! The frontend will automatically pull data from your Payload backend. Changing something inside the CMS and refreshing the frontend will show the changes instantly.
+The website starts on **`http://localhost:4321`**.
 
 ---
 
 ## Technical Details
 
-- **Database**: SQLite (The database file `payload.db` lives locally inside `/cms/payload.db` and can be easily managed).
-- **CSS**: Tailwind CSS v4 is used entirely via utility classes in `.astro` components.
-- **Node Environment**: Bun is required as the package manager and runtime. Ensure Bun is installed (`bun -v`) to run the stack properly.
+- **Database**: SQLite (Local file at `/cms/payload.db`).
+- **CSS**: Tailwind CSS v4.
+- **Runtime**: Bun.
