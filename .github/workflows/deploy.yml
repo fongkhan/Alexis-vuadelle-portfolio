@@ -23,9 +23,14 @@ jobs:
           script_stop: true
           # Replace 'YOUR_FOLDER_NAME' with the actual folder name of your portfolio on o2switch
           script: |
+            echo "Setting up Node.js 20 environment..."
+            export PATH=/opt/alt/alt-nodejs20/root/usr/bin:$PATH
+            
+            node -v
+            npm -v
+
             echo "Navigating to project directory..."
-            # Adjust the path beneath to match where you git cloned this repository in o2switch
-            cd /home/${{ secrets.O2SWITCH_USER }}/public_html/YOUR_FOLDER_NAME
+            cd /home/${{ secrets.O2SWITCH_USER }}/alexis-vuadelle.com
             
             echo "Pulling latest code from GitHub main branch..."
             git pull origin main
