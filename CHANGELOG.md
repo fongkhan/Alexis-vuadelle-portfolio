@@ -2,35 +2,19 @@
 
 All notable changes to this project will be documented in this file.
 
-## [1.2.0] - 2026-04-18
+## [Unreleased]
+
 ### Added
-- **Hero Variations**: Added `HeroSplit.astro` and `HeroMinimal.astro` components.
-- **Profile Picture Support**: Integrated image upload in Payload CMS `HomePage` global and display on the frontend.
-- **Alternative Design Instructions**: Documentation in README for swapping Hero styles.
+- **Global Background Animation:** Integrated three fluid, drifting HTML background blobs with heavy CSS matrix blurs via `@keyframes` floating animations across `Layout.astro` and `global.css` for a layered glassmorphism aesthetic.
+- **SSR Adapter (`frontend`):** Included `@astrojs/node` in standalone mode so the frontend can dynamically respond to endpoints without static rebuilds.
+- **Custom Passenger Boot Scripts:** Designed discrete `server.js` entry files inside both `/frontend` and `/cms` exclusively for Phusion Passenger compatibility on O2Switch shared-hosting architectures.
 
 ### Changed
-- **Brighter Theme**: Redesigned the entire site with a Light-mode aesthetic using Tailwind CSS v4.
-- **Color Palette Update**: Switched to off-white backgrounds, soft pastel gradients, and crisp slate typography.
-- **Glassmorphism Refresh**: Updated glass utilities for a cleaner, light-background look.
-
-## [1.1.0] - 2026-04-17
-### Added
-- **Payload Globals**: Migrated hardcoded page content to Payload CMS Globals (`HomePage`, `AboutPage`, `ProjectsPage`).
-- **Dynamic About Page**: Added a Lexical rich-text editor for the About page content.
-- **About Page Integration**: Created `about.astro` and connected it to the CMS.
+- **Database:** Swapped the generic Payload SQLite adapter (`@payloadcms/db-sqlite`) completely out for a high-performance strictly-typed PostgreSQL adapter (`@payloadcms/db-postgres`) tailored for production scale.
+- **Hero Component Redesign (`Hero.astro`):** Overhauled the central index hero module into an aggressive Split Two-Column layout, positioning the primary textual content on the left and a 3D-rotated, glassmorphism-framed profile image on the right. 
+- **Responsive Navigation Fixes:** Appended aggressive `pt-48` padding constraints onto Mobile viewports to actively prevent overlap beneath the floating header "island".
+- **Anchor Offset Fixes:** Appended `scroll-mt-32` spacing variables onto all primary navigation endpoints (`#projects`, `#career`, `#contact`) assuring that when navigating between sections natively, the target anchor avoids occlusion beneath the floating `#navbar-island`.
 
 ### Fixed
-- **Navigation Links**: Fixed the "About" button in navigation to point to a discrete page rather than an anchor tag.
-- **Turbopack Resolving**: Fixed Next.js package resolution in Bun Workspaces for Turbopack.
-- **Payload Import Map**: Resolved component missing errors in Payload Admin by generating a runtime import map.
-
-## [1.0.0] - 2026-04-15
-### Added
-- **Initial Monorepo Setup**: Configured Bun Workspaces with `/frontend` (Astro) and `/cms` (Payload).
-- **SQLite Database**: Set up local SQLite adapter for Payload CMS.
-- **Astro Frontend**: Initialized Astro with Tailwind CSS v4.
-- **Project Structure**: Created `Projects` collection and `Profile` global.
-- **Core Components**: Implemented `Header`, `Footer`, `Hero`, and `ProjectCard`.
-- **API Fetching**: Built `lib/api.ts` for Payload REST API consumption.
-- **Base Layout**: Premium dark-mode design with glassmorphism effects.
-- **Documentation**: Initial README and .gitignore setup.
+- **iPad Viewport Scaling:** Modified the global CSS `.section-container` class to enforce `px-12` until hitting `xl:px-0` bounds. This safely restored horizontal breathing room on iPads and tablets where text was previously crashing directly into the structural edges.
+- **Excessive Component Margins:** Removed fixed `min-h-[70vh]` height assertions globally across `CareerSection` and `ProjectsSection`, reverting components to dynamic `py-24` boundaries. Eliminates the visually excessive arbitrary "empty space" below minimal content streams.
