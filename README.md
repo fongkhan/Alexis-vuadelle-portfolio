@@ -56,7 +56,45 @@ You must define the following **Repository Secrets** in your GitHub repository (
 
 When developing locally, we utilize **bun** for ultra-fast package management and execution.
 
-1. Create local `.env` files supplying `DATABASE_URI`. 
-   *(PostgreSQL is strictly required, ensure you have a local postgres instance or remote dev database available)* 
 2. Enter the CMS: `cd cms && bun run dev`
 3. Enter the Frontend: `cd frontend && bun run dev`
+
+---
+
+## 🛠️ Post-Deployment Stabilization & Verification
+
+O2Switch (CloudLinux) enforces strict process and virtual memory limits. If your build or runtime crashes with `Out of memory` or `Invalid URL`, follow these stabilization steps.
+
+### 1. Critical Build Flags
+The build scripts in `package.json` are pre-configured with memory throttles. **Always** use these scripts on the server:
+- **CMS**: `npm run build` (uses `--max-old-space-size=8000` and `--no-wasm-memory-reservation`)
+- **Frontend**: `npm run build` (uses `--max-old-space-size=4096` and `SITE=https://alexis-vuadelle.com`)
+
+### 2. Manual Verification (The "Deep Clean")
+If you see a blank page or a `TypeError` in the logs, run this deep clean sequence in the O2Switch Terminal to ensure no corrupt artifacts remain:
+
+#### **For the Frontend:**
+```bash
+cd frontend
+rm -rf dist node_modules
+npm install
+npm run build
+touch tmp/restart.txt
+```
+
+#### **For the CMS:**
+```bash
+cd cms
+rm -rf .next node_modules
+npm install
+npm run build
+touch tmp/restart.txt
+```
+
+### 3. Log Inspection
+Check these locations if the application fails to start:
+- **Project Root**: `stderr.log` (Contains `console.error` output from Phusion Passenger).
+- **cPanel**: `Setup Node.js App > [App Name] > Passenger log file`.
+
+---
+*Maintained by Alexis Vuadelle & Antigravity (Advanced Agentic Coding)*
